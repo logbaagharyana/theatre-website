@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Auroville Theatre Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --dark: #111111;
+      --gold: #C9A84C;
+      --gold-light: #e2c97e;
+      --red: #b03030;
+      --white: #f5f0e8;
+      --grey: #888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .nav-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+      color: var(--white);
+    }
+
+    .nav-title span { color: var(--gold); }
+
+    .hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--white);
+      transition: all 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
+    }
+
+    .mobile-menu.open { transform: translateX(0); }
+
+    .menu-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 0;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+      text-align: center;
+    }
+
+    .menu-item:hover { color: var(--gold); }
+
+    .menu-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--grey);
+      text-decoration: none;
+      padding: 6px 0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      text-align: center;
+    }
+
+    .menu-sub:hover { color: var(--gold); }
+
+    .menu-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(201,168,76,0.3);
+      margin: 8px 0;
+    }
+
+    /* ── HERO ── */
+    #home {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    .hero-slides {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .hero-slide.active { opacity: 1; }
+
+    /* Placeholder gradient slides until real photos are added */
+    .hero-slide:nth-child(1) { background: linear-gradient(135deg, #1a0a00 0%, #2d1000 40%, #0a0a0a 100%); }
+    .hero-slide:nth-child(2) { background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2d 40%, #0a0a0a 100%); }
+    .hero-slide:nth-child(3) { background: linear-gradient(135deg, #0a1a00 0%, #0d2d00 40%, #0a0a0a 100%); }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.2) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 40px;
+      padding-top: 80px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 12vw, 7rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      text-transform: capitalize;
+      margin-bottom: 32px;
+    }
+
+    .hero-title .gold { color: var(--gold); }
+
+    .hero-subtitle {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+      margin-bottom: 48px;
+      max-width: 320px;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 32px;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      transition: background 0.2s;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .btn-primary:hover { background: #8f2020; }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      text-decoration: none;
+      padding: 13px 32px;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      border: 1px solid var(--white);
+      transition: all 0.2s;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* slide dots */
+    .hero-dots {
+      position: absolute;
+      bottom: 32px;
+      left: 40px;
+      z-index: 3;
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dot.active { background: var(--gold); }
+
+    /* ── SECTIONS COMMON ── */
+    section {
+      padding: 100px 40px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 40px;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 40px;
+    }
+
+    /* ── OUR STORY ── */
+    #story {
+      background: var(--dark);
+    }
+
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(245,240,232,0.8);
+      max-width: 680px;
+      margin-bottom: 32px;
+    }
+
+    .story-quote {
+      border-left: 2px solid var(--gold);
+      padding: 24px 28px;
+      margin: 40px 0;
+      background: rgba(201,168,76,0.05);
+    }
+
+    .story-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: rgba(245,240,232,0.9);
+    }
+
+    /* ── FOUNDER ── */
+    #founder {
+      background: var(--black);
+    }
+
+    .founder-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .founder-image-box {
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 3/4;
+      background: #1a1a1a;
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .founder-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .founder-role {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    .founder-text {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: rgba(245,240,232,0.75);
+    }
+
+    .founder-text + .founder-text { margin-top: 16px; }
+
+    /* ── TEAM ── */
+    #team {
+      background: var(--dark);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .team-card {
+      background: #1a1a1a;
+      border: 1px solid rgba(201,168,76,0.1);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .team-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #2a2a2a;
+      border: 2px solid rgba(201,168,76,0.3);
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: var(--grey);
+      letter-spacing: 0.05em;
+      overflow: hidden;
+    }
+
+    .team-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .team-placeholder {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--grey);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      grid-column: 1/-1;
+      border: 1px dashed rgba(201,168,76,0.2);
+    }
+
+    /* ── PLAYS ── */
+    #plays {
+      background: var(--black);
+    }
+
+    .plays-filter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 40px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .plays-filter svg { color: var(--gold); }
+
+    .plays-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .play-card {
+      cursor: pointer;
+    }
+
+    .play-poster {
+      width: 100%;
+      aspect-ratio: 2/3;
+      background: #1c1c1c;
+      border: 1px solid rgba(201,168,76,0.1);
+      margin-bottom: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .play-poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .play-card:hover .play-poster img { transform: scale(1.04); }
+
+    .play-poster-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: rgba(201,168,76,0.4);
+      text-align: center;
+      padding: 16px;
+    }
+
+    .play-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .play-year {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+
+    /* ── GALLERY ── */
+    #gallery {
+      background: var(--dark);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      background: #1c1c1c;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .gallery-item:hover img { transform: scale(1.06); }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: rgba(201,168,76,0.3);
+      text-transform: uppercase;
+    }
+
+    .gallery-item:first-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+    }
+
+    /* ── SUPPORT ── */
+    #support {
+      background: var(--black);
+      text-align: center;
+    }
+
+    #support .section-eyebrow,
+    #support .section-title,
+    #support .divider {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .support-text {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(245,240,232,0.75);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+
+    .support-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .support-card {
+      border: 1px solid rgba(201,168,76,0.25);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .support-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--gold);
+    }
+
+    .support-card-text {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: rgba(245,240,232,0.6);
+      margin-bottom: 20px;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      text-decoration: none;
+      padding: 12px 28px;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-gold:hover { background: var(--gold-light); }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--dark);
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .contact-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .contact-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+
+    .contact-value a {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-value a:hover { color: var(--gold); }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+    }
+
+    .form-input,
+    .form-textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.2);
+      color: var(--white);
+      padding: 14px 16px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus { border-color: var(--gold); }
+
+    .form-textarea { min-height: 120px; resize: vertical; }
+
+    .form-submit {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 14px 32px;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+
+    .form-submit:hover { background: #8f2020; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #070707;
+      padding: 40px;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .footer-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 16px;
+      display: block;
+    }
+
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.3);
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#home" class="nav-brand">
+      <img src="logo.png" alt="ATG Logo" class="nav-logo" onerror="this.style.display='none'" />
+      <div class="nav-title">The Auroville <span>Theatre</span> Group</div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" class="menu-item" onclick="closeMenu()">Home</a>
+    <div class="menu-divider"></div>
+    <a href="#story" class="menu-item" onclick="closeMenu()">About Us</a>
+    <a href="#story" class="menu-sub" onclick="closeMenu()">Our Story</a>
+    <a href="#founder" class="menu-sub" onclick="closeMenu()">Our Founder & Director</a>
+    <a href="#team" class="menu-sub" onclick="closeMenu()">Our Team</a>
+    <div class="menu-divider"></div>
+    <a href="#plays" class="menu-item" onclick="closeMenu()">Our Plays</a>
+    <div class="menu-divider"></div>
+    <a href="#gallery" class="menu-item" onclick="closeMenu()">Gallery</a>
+    <div class="menu-divider"></div>
+    <a href="#support" class="menu-item" onclick="closeMenu()">Support Us</a>
+    <div class="menu-divider"></div>
+    <a href="#contact" class="menu-item" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-slides">
+      <div class="hero-slide active" id="slide1"></div>
+      <div class="hero-slide" id="slide2"></div>
+      <div class="hero-slide" id="slide3"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Auroville, India · Est. 1992</p>
+      <h1 class="hero-title">
+        The<br>
+        Auroville<br>
+        <span class="gold">Theatre</span><br>
+        Group
+      </h1>
+      <p class="hero-subtitle">30 years of transformative<br>theatre in Auroville, India</p>
+      <div class="hero-buttons">
+        <a href="#plays" class="btn-primary">Our Productions</a>
+        <a href="#story" class="btn-secondary">The Story</a>
+      </div>
+    </div>
+    <div class="hero-dots">
+      <div class="dot active" onclick="goToSlide(0)"></div>
+      <div class="dot" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section id="story">
+    <p class="section-eyebrow fade-in">About Us</p>
+    <h2 class="section-title fade-in">Our Story</h2>
+    <div class="divider fade-in"></div>
+    <p class="story-text fade-in">
+      The Auroville Theatre Group has been performing in Auroville for about 30 years now. Many actors have come and gone: several have started their stage careers with the ATG. The theatre scene in Auroville being pretty fluid — actors work with more than one company, move around from show to show. One thing has remained constant: Jill Navarre, ATG artistic director.
+    </p>
+    <p class="story-text fade-in">
+      Ever since the first performance of <em>'Waiting for Godot'</em>, Jill has directed the ATG in its performances of <em>'Legend of the Kaliveli Siddha'</em>, <em>'The Greedy Man'</em>, <em>'Nishtha, or the Strange Disappearance of Margaret Woodrow Wilson'</em>, <em>'Sacrifice'</em>, <em>'Milarepa'</em> — to name a few. The scripts are chosen for their beauty of language and depth of expression.
+    </p>
+    <p class="story-text fade-in">
+      We always ask: <em>What does this story mean to us, here, now?</em> The plays we choose carry relevance to the Auroville experience — its multicultural, international spirit — and connect to what Auroville is all about: an expression of the search for human unity, man's aspiration for progress, the evolution of consciousness, unity in diversity, our connection with the Divine.
+    </p>
+
+    <div class="story-quote fade-in">
+      <p>
+        "Theatre is about transformation. It is about finding yourself and touching the deepest part of yourself in order to offer it up to the Divine, to the audience. You are there for them — you are enacting this miracle of transformation for them. And how do we open our hearts to allow this transformation to take place? We use the strongest power that we know — the power of love."
+      </p>
+    </div>
+
+    <p class="story-text fade-in">
+      What is this love? It is the love which can change you, open you, widen you, clean you, make you strong. It gives you a voice, two arms, two legs, a strong, flexible, responsive, energized, dynamic body and most of all, a heart. It opens your heart, yes, until you think it will break.
+    </p>
+    <p class="story-text fade-in">
+      Every day we come and start again. And every day there is some progress, understanding, some laughter and even some tears. Because you cannot change without pain, and frustration, and resistance. Then the love has to be there, even stronger than the strongest resistance — because it leads to a discovery of one's psychic being, to a feeling of connectedness, of light and great, great joy. And we are here for that.
+    </p>
+  </section>
+
+  <!-- FOUNDER -->
+  <section id="founder">
+    <p class="section-eyebrow fade-in">About Us</p>
+    <h2 class="section-title fade-in">Our Founder &amp; Director</h2>
+    <div class="divider fade-in"></div>
+    <div class="founder-grid">
+      <div class="founder-image-box fade-in">
+        <!-- Replace with: <img src="jill.jpg" alt="Jill Navarre" style="width:100%;height:100%;object-fit:cover"> -->
+        <span>Photo Coming Soon</span>
+      </div>
+      <div>
+        <h3 class="founder-name fade-in">Jill Navarre</h3>
+        <p class="founder-role fade-in">Artistic Director · Playwright · Screenwriter · Director</p>
+        <p class="founder-text fade-in">
+          Born in New Orleans and raised in Brooklyn, New York, Jill Navarre began writing at the age of nine, winning a New York City-wide competition for best essay. She wrote poetry for a decade, had numerous poems published in the U.S. and Canada, and co-founded a celebrated Toronto poetry coffee house, The Soft Cell.
+        </p>
+        <p class="founder-text fade-in">
+          While working on her Master's degree in English, a playwriting class changed everything. She went on to win directing awards at the Source Theatre Festival in Washington D.C. for <em>'Rivers of Blood'</em>, and the D.C. Arts Council Larry Neal Award for playwriting for <em>'The Cradle Will Fall'</em>. She directed 22 plays in the U.S. and India, and spent three years as Assistant Box Office Manager at the Folger Theatre, watching Shakespeare performed every night.
+        </p>
+        <p class="founder-text fade-in">
+          India first called in 1987, when a backpacking journey led her to Auroville — an international community in Tamil Nadu dedicated to human unity. She returned in 1991, knew immediately she belonged, and has lived there ever since. She has been Artistic Director of the Auroville Theatre Group since 1992. In 2003, she received a Government of India Development Scheme grant for directing <em>'Milarepa'</em>.
+        </p>
+        <p class="founder-text fade-in">
+          Jill is currently writing <em>'Ananda'</em> (a new play) and <em>'Portrait of Anna'</em> (a screenplay), and has completed the screenplay <em>'Sannyasi'</em>, adapted from Satprem's novel.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <p class="section-eyebrow fade-in">About Us</p>
+    <h2 class="section-title fade-in">Our Team</h2>
+    <div class="divider fade-in"></div>
+    <div class="team-grid fade-in">
+      <div class="team-placeholder">
+        Team members will be added here.<br>Please provide names, roles, and photos.
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYS -->
+  <section id="plays">
+    <p class="section-eyebrow fade-in">Our Work</p>
+    <h2 class="section-title fade-in">Our Plays</h2>
+    <div class="divider fade-in"></div>
+    <div class="plays-filter fade-in">
+      Filter All Plays
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="plays-grid fade-in">
+
+      <div class="play-card">
+        <div class="play-poster">
+          <div class="play-poster-placeholder">Waiting for Godot</div>
+        </div>
+        <div class="play-title">Waiting for Godot</div>
+        <div class="play-year">First Production</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-poster">
+          <div class="play-poster-placeholder">Milarepa</div>
+        </div>
+        <div class="play-title">Milarepa</div>
+        <div class="play-year">2004</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-poster">
+          <div class="play-poster-placeholder">The Rainmaker</div>
+        </div>
+        <div class="play-title">The Rainmaker</div>
+        <div class="play-year">2006</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-poster">
+          <div class="play-poster-placeholder">Sacrifice</div>
+        </div>
+        <div class="play-title">Sacrifice</div>
+        <div class="play-year">ATG Production</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-poster">
+          <div class="play-poster-placeholder">Legend of the Kaliveli Siddha</div>
+        </div>
+        <div class="play-title">Legend of the Kaliveli Siddha</div>
+        <div class="play-year">ATG Production</div>
+      </div>
+
+      <div class="play-card">
+        <div class="play-poster">
+          <div class="play-poster-placeholder">Nishtha</div>
+        </div>
+        <div class="play-title">Nishtha, or the Strange Disappearance of Margaret Woodrow Wilson</div>
+        <div class="play-year">ATG Production</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <p class="section-eyebrow fade-in">Visual Archive</p>
+    <h2 class="section-title fade-in">Gallery</h2>
+    <div class="divider fade-in"></div>
+    <div class="gallery-grid fade-in">
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Add production photos here</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Photo</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Photo</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Photo</div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">Photo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section id="support">
+    <p class="section-eyebrow fade-in">Support</p>
+    <h2 class="section-title fade-in">Support Us</h2>
+    <div class="divider fade-in"></div>
+    <p class="support-text fade-in">
+      The Auroville Theatre Group has sustained 30 years of transformative theatre through the generosity of its supporters. Your contribution helps us continue producing work that touches the deepest part of the human experience.
+    </p>
+    <div class="support-options fade-in">
+      <div class="support-card">
+        <div class="support-card-title">Make a Donation</div>
+        <div class="support-card-text">Support our productions, training programmes, and the continuation of theatre in Auroville.</div>
+        <!-- Replace href with actual donation link -->
+        <a href="#contact" class="btn-gold">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-eyebrow fade-in">Reach Us</p>
+    <h2 class="section-title fade-in">Contact</h2>
+    <div class="divider fade-in"></div>
+    <div class="contact-info fade-in">
+      <div class="contact-item">
+        <span class="contact-label">Location</span>
+        <span class="contact-value">Auroville, Tamil Nadu, India — 605 101</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <span class="contact-value">
+          <!-- Replace with real email -->
+          <a href="mailto:info@aurovilletheatre.org">info@aurovilletheatre.org</a>
+        </span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Social Media</span>
+        <span class="contact-value">
+          <!-- Add real social links -->
+          <a href="#">Instagram</a> &nbsp;·&nbsp; <a href="#">Facebook</a>
+        </span>
+      </div>
+    </div>
+    <form class="contact-form fade-in" onsubmit="return false;">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input class="form-input" type="text" placeholder="Full name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Your message..."></textarea>
+      </div>
+      <button class="form-submit" type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <img src="logo.png" alt="ATG" class="footer-logo" onerror="this.style.display='none'" />
+    <div class="footer-name">The Auroville Theatre Group</div>
+    <div class="footer-copy">© 2025 · Auroville, India · All Rights Reserved</div>
+  </footer>
+
+  <script>
+    // ── HAMBURGER ──
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── HERO SLIDER ──
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.dot');
+    let current = 0;
+    let timer;
+
+    function goToSlide(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = n;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      clearInterval(timer);
+      timer = setInterval(nextSlide, 5000);
+    }
+
+    function nextSlide() {
+      goToSlide((current + 1) % slides.length);
+    }
+
+    timer = setInterval(nextSlide, 5000);
+
+    // ── SCROLL FADE IN ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
